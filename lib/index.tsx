@@ -5,7 +5,8 @@ import { tintData, isColorful } from './utils';
 interface ReactImageTintProps {
   src: string;
   color: string;
-  alt: string;
+  alt?: string;
+  cache?: boolean;
 };
 
 interface ReactImageTintState {
@@ -41,7 +42,9 @@ export class ReactImageTint extends React.Component<ReactImageTintProps, ReactIm
 
   applyTint(src: string, color: string) {
     if (!isColorful(src) && this.refs.img) {
-      tintData(this.refs.img as HTMLImageElement, color)
+      const imgElement = this.refs.img as HTMLImageElement;
+
+      tintData(imgElement, color, { cache: Boolean(this.props.cache) })
         .then((src) => this._mounted && this.setState({ src }));
     }
   }

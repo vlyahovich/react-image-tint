@@ -1,6 +1,5 @@
 export function isImageLoaded(imgElement: HTMLImageElement): boolean {
   return (
-    imgElement.complete &&
     typeof imgElement.naturalWidth != 'undefined' &&
     imgElement.naturalWidth != 0
   );
@@ -20,10 +19,20 @@ export function getBuffer(imgElement: HTMLImageElement): HTMLCanvasElement {
   return buffer;
 }
 
-export function tintData(imgElement: HTMLImageElement, color: string): Promise<string> {
+interface tintDataOptions {
+  cache?: boolean;
+}
+
+const tintCache: { [src: string]: string } = {};
+
+export function tintData(imgElement: HTMLImageElement, color: string, options: tintDataOptions = {}): Promise<string> {
+  if (options.cache && tintCache[imgElement.src]) {
+    return Promise.resolve(tintCache[imgElement.src]);
+  }
+
   if (!isImageLoaded(imgElement)) {
     return new Promise((resolve, reject) => {
-      imgElement.onload = () => resolve(tintData(imgElement, color));
+      imgElement.onload = () => resolve(tintData(imgElement, color, options));
       imgElement.onerror = reject;
     });
   }
@@ -52,9 +61,20 @@ export function tintData(imgElement: HTMLImageElement, color: string): Promise<s
   context.globalCompositeOperation = 'destination-in';
   context.drawImage(imgElement, 0, 0);
 
-  return Promise.resolve(buffer.toDataURL('image/png'));
+  let dataUrl = imgElement.src;
+
+  try {
+    dataUrl = buffer.toDataURL('image/png');
+
+    if (options.cache) {
+      tintCache[imgElement.src] = dataUrl;
+    }
+  } catch (e) {
+  }
+
+  return Promise.resolve(dataUrl);
 }
 
-export function isColorful(src: string) : boolean {
+export function isColorful(src: string): boolean {
   return src.indexOf('[colorful]') !== -1;
 }
