@@ -1,0 +1,27 @@
+{
+  "name": "react-image-tint",
+  "version": "1.0.0",
+  "description": "A React component that applies tint to image",
+  "main": "lib/index.js",
+  "scripts": {
+    "bundle": "./node_modules/typescript/bin/tsc -p ./tsconfig.json"
+  },
+  "keywords": [
+    "react",
+    "image",
+    "tint",
+    "canvas"
+  ],
+  "author": "Vadim Liakhovich <v.liakhovich@yandex.ru>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.14",
+    "@types/react": "^16.9.14",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {}
+}
