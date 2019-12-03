@@ -13,8 +13,8 @@ export function myTint() {
 
 # Options
 
-- **src**
+- **src** - 
 Source path to image. Url or uri.
 
-- **color**
+- **color** - 
 HEX color like `#FF404C`
