@@ -1,3 +1,5 @@
+![ReactImageTint](tint.png)
+
 # React Image Tint
 A React component that applies tint to image.
 
