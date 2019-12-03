@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { tintData } from './utils';
+import { tintData, isColorful } from './utils';
 
 interface ReactImageTintProps {
   src: string;
@@ -13,6 +13,8 @@ interface ReactImageTintState {
 };
 
 export class ReactImageTint extends React.Component<ReactImageTintProps, ReactImageTintState> {
+  _mounted: boolean = false;
+
   constructor(props: ReactImageTintProps) {
     super(props);
 
@@ -22,16 +24,25 @@ export class ReactImageTint extends React.Component<ReactImageTintProps, ReactIm
   }
 
   componentDidMount() {
-    if (this.refs.img) {
-      tintData(this.refs.img as HTMLImageElement, this.props.color)
-        .then((src) => this.setState({ src }));
-    }
+    this._mounted = true;
+
+    this.applyTint(this.props.src, this.props.color);
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   componentWillReceiveProps(newProps: ReactImageTintProps) {
     if (newProps.src !== this.props.src) {
-      tintData(this.refs.img as HTMLImageElement, newProps.color)
-        .then((src) => this.setState({ src }));
+      this.applyTint(newProps.src, newProps.color);
+    }
+  }
+
+  applyTint(src: string, color: string) {
+    if (!isColorful(src) && this.refs.img) {
+      tintData(this.refs.img as HTMLImageElement, color)
+        .then((src) => this._mounted && this.setState({ src }));
     }
   }
 

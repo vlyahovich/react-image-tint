@@ -1,10 +1,10 @@
-export function isImageLoaded(imgElement: HTMLImageElement) {
+export function isImageLoaded(imgElement: HTMLImageElement): boolean {
   return (
     imgElement.complete &&
     typeof imgElement.naturalWidth != 'undefined' &&
     imgElement.naturalWidth != 0
   );
-};
+}
 
 export function getBuffer(imgElement: HTMLImageElement): HTMLCanvasElement {
   const buffer = document.createElement('canvas');
@@ -53,4 +53,8 @@ export function tintData(imgElement: HTMLImageElement, color: string): Promise<s
   context.drawImage(imgElement, 0, 0);
 
   return Promise.resolve(buffer.toDataURL('image/png'));
+}
+
+export function isColorful(src: string) : boolean {
+  return src.indexOf('[colorful]') !== -1;
 }

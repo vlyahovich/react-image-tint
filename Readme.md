@@ -19,4 +19,8 @@ export function myTint() {
 Source path to image. Url or uri.
 
 - **color** - 
-HEX color like `#FF404C`
+HEX color like `#FF404C`.
+
+# Additional Functions
+
+- If you have `[colorful]` keyword with braces in image url, then it won't apply tint.
