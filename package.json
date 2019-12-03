@@ -1,6 +1,6 @@
 {
   "name": "react-image-tint",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React component that applies tint to image",
   "main": "lib/index.js",
   "scripts": {
