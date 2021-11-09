@@ -7,17 +7,19 @@ interface ReactImageTintProps {
   color: string;
   alt?: string;
   cache?: boolean;
-};
+}
 
 interface ReactImageTintState {
   src: string;
-};
+}
 
 export class ReactImageTint extends React.Component<ReactImageTintProps, ReactImageTintState> {
   _mounted: boolean = false;
+  imgRef: any;
 
   constructor(props: ReactImageTintProps) {
     super(props);
+    this.imgRef = React.createRef();
 
     this.state = {
       src: props.src
@@ -41,8 +43,8 @@ export class ReactImageTint extends React.Component<ReactImageTintProps, ReactIm
   }
 
   applyTint(src: string, color: string) {
-    if (!isColorful(src) && this.refs.img) {
-      const imgElement = this.refs.img as HTMLImageElement;
+    if (!isColorful(src) && this.imgRef.current) {
+      const imgElement = this.imgRef.current as HTMLImageElement;
 
       tintData(imgElement, color, { cache: Boolean(this.props.cache) })
         .then((src) => this._mounted && this.setState({ src }));
@@ -54,7 +56,7 @@ export class ReactImageTint extends React.Component<ReactImageTintProps, ReactIm
       <img
         src={this.state.src}
         alt={this.props.alt}
-        ref="img"
+        ref={this.imgRef}
         crossOrigin="anonymous"
       />
     );
